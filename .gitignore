@@ -1,0 +1,9 @@
+*
+!*/
+.*
+!.gitignore
+!.gitkeep
+!Makefile
+!Dockerfile
+!docker-compose.yml
+!**/srcs/**
