@@ -11,12 +11,10 @@ RUN printf "%s%s%s%s\n" \
 RUN curl -o /tmp/nginx_signing.rsa.pub https://nginx.org/keys/nginx_signing.rsa.pub
 RUN mv /tmp/nginx_signing.rsa.pub /etc/apk/keys/
 
-RUN apk add --no-cache nginx@nginx
+RUN apk add --no-cache nginx@nginx # The Alpine nginx package already creates a system user and group called nginx.
 
 RUN rm -rf /tmp/* /var/cache/apk/*
 
-RUN adduser -D -g '' nginxuser
-
 EXPOSE 80
 
-CMD [ "nginx" ]
+CMD ["nginx", "-g", "daemon off;"]
