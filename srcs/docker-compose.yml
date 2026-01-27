@@ -1,0 +1,8 @@
+services:
+  nginx:
+    image: nginx
+    pull_policy: never
+    build: ./requirements/nginx
+    container_name: nginx
+    ports: [ "8080:80", "8081:443" ]
+    restart: always
