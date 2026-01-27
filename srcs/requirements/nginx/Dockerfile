@@ -1,31 +1,18 @@
-FROM alpine
+FROM alpine:3.22.2
 
-RUN apk add --no-cache openssl curl ca-certificates
-RUN printf "%s%s%s%s\n" \
-    "@nginx " \
-    "https://nginx.org/packages/alpine/v" \
-    `egrep -o '^[0-9]+\.[0-9]+' /etc/alpine-release` \
-    "/main" \
-    | tee -a /etc/apk/repositories
-
-RUN curl -o /tmp/nginx_signing.rsa.pub https://nginx.org/keys/nginx_signing.rsa.pub
-RUN mv /tmp/nginx_signing.rsa.pub /etc/apk/keys/
-
-RUN apk add --no-cache nginx@nginx
-# The nginx package already creates a system user and group called nginx.
-
-RUN rm -rf /tmp/* /var/cache/apk/* /etc/apk/keys/nginx_signing.rsa.pub
+RUN apk add --no-cache openssl nginx
 
 RUN mkdir /etc/nginx/ssl
 
-RUN openssl req -x509 -nodes -days 3650 -newkey rsa:2048 \
-    -keyout /etc/nginx/ssl/akovtune.key \
-    -out /etc/nginx/ssl/akovtune.crt \
-    -subj "/C=NL/L=Amsterdam/O=Codam/CN=Andrii Kovtunets/emailAddress=akovtune@student.codam.nl"
+RUN openssl req -x509 -nodes -days 3650 -newkey rsa:4096 \
+    -keyout /etc/nginx/ssl/inception.key \
+    -out /etc/nginx/ssl/inception.crt \
+    -subj "/C=FR/L=Paris/O=42 Paris/CN=Student/emailAddress=wil@student.42.fr"
 
-COPY ./conf/nginx.conf /etc/nginx/nginx.conf
-COPY index.html /var/www/
+COPY ./conf/nginx.conf /etc/nginx/
+
+COPY ./index.html /var/www/html/index.html
 
 EXPOSE 80 443
 
-CMD ["nginx", "-c", "/etc/nginx/nginx.conf", "-g", "daemon off;"]
+CMD ["nginx", "-g", "daemon off;"]
