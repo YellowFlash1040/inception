@@ -14,7 +14,7 @@ RUN mv /tmp/nginx_signing.rsa.pub /etc/apk/keys/
 RUN apk add --no-cache nginx@nginx
 # The nginx package already creates a system user and group called nginx.
 
-RUN rm -rf /tmp/* /var/cache/apk/* /etc/apk/keys/
+RUN rm -rf /tmp/* /var/cache/apk/* /etc/apk/keys/nginx_signing.rsa.pub
 
 RUN mkdir /etc/nginx/ssl
 
@@ -24,7 +24,8 @@ RUN openssl req -x509 -nodes -days 3650 -newkey rsa:2048 \
     -subj "/C=NL/L=Amsterdam/O=Codam/CN=Andrii Kovtunets/emailAddress=akovtune@student.codam.nl"
 
 COPY ./conf/nginx.conf /etc/nginx/nginx.conf
+COPY index.html /var/www/
 
 EXPOSE 80 443
 
-CMD ["nginx", "-g", "daemon off;"]
+CMD ["nginx", "-c", "/etc/nginx/nginx.conf", "-g", "daemon off;"]
