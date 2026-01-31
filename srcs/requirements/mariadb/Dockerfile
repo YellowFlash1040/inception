@@ -4,6 +4,6 @@ RUN apk add --no-cache mariadb mariadb-client
 
 EXPOSE 3306
 
-USER mysql
+# USER mysql
 
 ENTRYPOINT ["sh", "-c", "tail -f /dev/null"]

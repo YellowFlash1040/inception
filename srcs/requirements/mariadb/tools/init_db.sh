@@ -8,3 +8,12 @@ if [ ! -d "${MARIADB_HOME}/mysql" ]; then
 fi
 
 exec mysqld --user=mysqld
+
+
+
+#------------------
+mariadb-install-db
+mkdir -p /run/mysqld
+chown mysql:mysql /run/mysqld
+mariadb-secure-installation
+mysqld_safe |or| exec mariadbd --user=mysql |or| mariadbd-safe --datadir='./data
