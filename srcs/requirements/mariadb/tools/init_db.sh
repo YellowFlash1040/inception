@@ -12,8 +12,9 @@ exec mysqld --user=mysqld
 
 
 #------------------
-mariadb-install-db
+mariadb-install-db --datadir=/var/lib/mysql
+chown -R mysql:mysql /var/lib/mysql
 mkdir -p /run/mysqld
 chown mysql:mysql /run/mysqld
+mariadbd --user=mysql & |or| mariadbd-safe --user=mysql &
 mariadb-secure-installation
-mysqld_safe |or| exec mariadbd --user=mysql |or| mariadbd-safe --datadir='./data
