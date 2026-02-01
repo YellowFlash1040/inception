@@ -2,7 +2,7 @@ YML_FILE 			:= ./srcs/docker-compose.yml
 WP_DATA_FOLDER		:= /home/akovtune/data/wordpress
 MARIADB_DATA_FOLDER	:= /home/akovtune/data/mariadb
 
-all: up
+all: prepare up
 
 prepare:
 	mkdir -p ${MARIADB_DATA_FOLDER}
