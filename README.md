@@ -249,10 +249,6 @@ Overall, AI acted as a learning companion, helping me move from unfamiliar conce
 
 ## Project Architecture
 
-### Docker Usage and Infrastructure
-
-This project leverages Docker to create an isolated, reproducible infrastructure consisting of three containerized services. Docker was chosen for its ability to package applications and their dependencies into standardized units, ensuring consistency across different environments.
-
 **Key Design Decisions:**
 
 1. **Base Image Selection**: Alpine Linux 3.22.2 was chosen as the base image for all containers due to its minimal footprint (approximately 5MB) and reduced attack surface. This choice prioritizes security and efficiency over convenience.
@@ -280,9 +276,9 @@ This project leverages Docker to create an isolated, reproducible infrastructure
 
 | Aspect | Docker Secrets | Environment Variables |
 |--------|---------------------------|----------------------|
-| **Security** | Stored in encrypted text | Stored in plain text |
+| **Security** | Stored as encrypted data | Stored in plain text |
 | **Visibility** | Hidden from logs and inspect commands | Visible in `docker inspect` and logs |
-| **Management** | Requires orchestration platform (Docker Compose) | Simple, built into Docker Engine |
+| **Management** | Requires orchestration platform (Docker Swarm) | Built right into Docker Engine |
 | **Best For** | Production sensitive data | Development, non-sensitive configuration |
 
 ### Docker Network vs Host Network
