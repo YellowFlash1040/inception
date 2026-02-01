@@ -1,6 +1,6 @@
 FROM alpine:3.22.2
 
-RUN apk add --no-cache mariadb
+RUN apk add --no-cache mariadb mariadb-client
 
 COPY ./tools/*.sh /usr/local/bin/
 RUN chmod +x /usr/local/bin/*.sh
