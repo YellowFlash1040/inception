@@ -14,9 +14,12 @@ services:
         image: mariadb
         build: ./requirements/mariadb
         container_name: mariadb
+        environment:
+            MARIADB_USER: ${MARIADB_USER}
+            MARIADB_ROOT_PASSWORD: ${MARIADB_ROOT_PASSWORD}
         volumes:
             - mariadb_volume:/var/lib/mysql
-        # restart: always
+        restart: always
 
 volumes:
     mariadb_volume:
