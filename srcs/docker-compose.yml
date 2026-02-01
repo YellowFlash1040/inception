@@ -6,7 +6,7 @@ services:
     ports:
       - 443:443
     volumes:
-      - wordpress_volume:${WORDPRESS_DATA}
+      - wordpress_volume:${WORDPRESS_FOLDER}
     networks:
       - inception
     depends_on:
@@ -19,10 +19,10 @@ services:
     build: ./requirements/wordpress
     container_name: wordpress
     environment:
-      WORDPRESS_DATA: ${WORDPRESS_DATA}
-      WORDPRESS_USER: ${WORDPRESS_USER}
-      WP_DATABASE: ${WP_DATABASE}
-      WP_HOST: ${WP_HOST}
+      WORDPRESS_FOLDER: ${WORDPRESS_FOLDER}
+      WP_LINUX_USER: ${WP_LINUX_USER}
+      WP_DB_NAME: ${WP_DB_NAME}
+      WP_DB_HOST: ${WP_DB_HOST}
       WP_ADMIN_USER: ${WP_ADMIN_USER}
       WP_PASSWORD: ${WP_PASSWORD}
       WP_URL: ${WP_URL}
@@ -32,7 +32,7 @@ services:
       WP_USER: ${WP_USER}
       WP_EMAIL: ${WP_EMAIL}
     volumes:
-      - wordpress_volume:${WORDPRESS_DATA}
+      - wordpress_volume:${WORDPRESS_FOLDER}
     networks:
       - inception
     depends_on:
@@ -48,7 +48,7 @@ services:
       MARIADB_ROOT_PASSWORD: ${MARIADB_ROOT_PASSWORD}
       MARIADB_DATA: ${MARIADB_DATA}
       MARIADB_SOCKET_FOLDER: ${MARIADB_SOCKET_FOLDER}
-      WP_DATABASE: ${WP_DATABASE}
+      WP_DB_NAME: ${WP_DB_NAME}
       WP_ADMIN_USER: ${WP_ADMIN_USER}
       WP_PASSWORD: ${WP_PASSWORD}
     volumes:
