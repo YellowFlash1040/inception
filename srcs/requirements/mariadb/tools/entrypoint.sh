@@ -2,9 +2,6 @@
 
 set -e # if any command fails exit immediately
 
-MARIADB_HOME="/var/lib/mysql"
-MARIADB_SOCKET_FOLDER="/run/mysqld"
-
 if [ ! -d "${MARIADB_HOME}/mysql" ]; then # if launched for the first time
     mariadb-install-db --user=${MARIADB_USER} --datadir=${MARIADB_HOME} # initialise MariaDB system database as mysql user
     /usr/local/bin/secure_mariadb.sh # and secure it

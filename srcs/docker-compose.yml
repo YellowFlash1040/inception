@@ -17,8 +17,10 @@ services:
         environment:
             MARIADB_USER: ${MARIADB_USER}
             MARIADB_ROOT_PASSWORD: ${MARIADB_ROOT_PASSWORD}
+            MARIADB_HOME: ${MARIADB_HOME}
+            MARIADB_SOCKET_FOLDER: ${MARIADB_SOCKET_FOLDER}
         volumes:
-            - mariadb_volume:/var/lib/mysql
+            - mariadb_volume:${MARIADB_HOME}
         restart: always
 
 volumes:

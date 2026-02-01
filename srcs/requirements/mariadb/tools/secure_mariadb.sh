@@ -2,8 +2,6 @@
 
 set -e
 
-MARIADB_SOCKET_FOLDER="/run/mysqld"
-
 if [ ! -d "${MARIADB_SOCKET_FOLDER}" ]; then # if MariaDB unix socket directory is missing
     mkdir -p ${MARIADB_SOCKET_FOLDER} # create one
     chown ${MARIADB_USER}:${MARIADB_USER} ${MARIADB_SOCKET_FOLDER} # and set appropriate ownership
