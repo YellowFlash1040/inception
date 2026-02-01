@@ -6,8 +6,6 @@ services:
         ports: [ "8080:80", "8081:443" ]
         volumes:
             - ./requirements/nginx/index.html:/var/www/html/index.html:ro
-        depends_on:
-            - mariadb
         restart: always
 
     mariadb:
@@ -24,4 +22,9 @@ services:
         restart: always
 
 volumes:
-    mariadb_volume:
+  mariadb_volume:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /home/akovtune/data/mariadb
