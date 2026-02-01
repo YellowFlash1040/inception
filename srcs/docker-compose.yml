@@ -12,7 +12,7 @@ services:
     depends_on:
       - wordpress
       - mariadb
-    # restart: always
+    restart: always
 
   wordpress:
     image: wordpress
@@ -24,22 +24,9 @@ services:
       - inception
     depends_on:
       - mariadb
-    environment:
-      WP_FOLDER: ${WP_FOLDER}
-      WP_LINUX_USER: ${WP_LINUX_USER}
-      WP_DB_NAME: ${WP_DB_NAME}
-      WP_DB_HOST: ${WP_DB_HOST}
-      WP_DB_USER: ${WP_DB_USER}
-      WP_DB_USER_PASSWORD: ${WP_DB_USER_PASSWORD}
-      WP_URL: ${WP_URL}
-      WP_TITLE: ${WP_TITLE}
-      WP_ADMIN_USER: ${WP_ADMIN_USER}
-      WP_ADMIN_EMAIL: ${WP_ADMIN_EMAIL}
-      WP_ADMIN_PASSWORD: ${WP_ADMIN_PASSWORD}
-      SECOND_WP_USER: ${SECOND_WP_USER}
-      SECOND_WP_USER_EMAIL: ${SECOND_WP_USER_EMAIL}
-      SECOND_WP_USER_PASSWORD: ${SECOND_WP_USER_PASSWORD}
-  #   restart: always
+    env_file:
+      - .env
+    restart: always
 
   mariadb:
     image: mariadb
@@ -49,15 +36,9 @@ services:
       - mariadb_volume:${MARIADB_FOLDER}
     networks:
       - inception
-    environment:
-      MARIADB_LINUX_USER: ${MARIADB_LINUX_USER}
-      MARIADB_ROOT_USER_PASSWORD: ${MARIADB_ROOT_USER_PASSWORD}
-      MARIADB_FOLDER: ${MARIADB_FOLDER}
-      MARIADB_SOCKET_FOLDER: ${MARIADB_SOCKET_FOLDER}
-      WP_DB_NAME: ${WP_DB_NAME}
-      WP_DB_USER: ${WP_DB_USER}
-      WP_DB_USER_PASSWORD: ${WP_DB_USER_PASSWORD}
-    # restart: always
+    env_file:
+      - .env
+    restart: always
 
 volumes:
   mariadb_volume:
@@ -65,15 +46,13 @@ volumes:
     driver_opts:
       type: none
       o: bind
-      # device: /home/akovtune/data/mariadb
-      device: /home/akovtune/codam/core/projects/inception/data/mariadb
+      device: /home/akovtune/data/mariadb
   wordpress_volume:
     driver: local
     driver_opts:
       type: none
       o: bind
-      device: /home/akovtune/codam/core/projects/inception/data/wordpress
+      device: /home/akovtune/data/wordpress
 
 networks:
   inception:
-    driver: bridge
