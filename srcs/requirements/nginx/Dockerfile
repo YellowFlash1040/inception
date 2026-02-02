@@ -17,7 +17,7 @@ RUN apk add --no-cache nginx
 
 COPY --from=certs /etc/nginx/ssl /etc/nginx/ssl
 
-COPY ./conf/nginx.conf /etc/nginx/nginx.conf
+COPY ./nginx.conf /etc/nginx/nginx.conf
 
 EXPOSE 443
 
