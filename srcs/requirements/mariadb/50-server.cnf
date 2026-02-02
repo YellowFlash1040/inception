@@ -1,5 +1,0 @@
-[mysqld]
-user                    = mysql
-port                    = 3306
-bind-address            = mariadb
-skip-networking         = false

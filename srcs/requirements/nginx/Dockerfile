@@ -16,9 +16,12 @@ FROM alpine:3.22.2
 RUN apk add --no-cache nginx
 
 COPY --from=certs /etc/nginx/ssl /etc/nginx/ssl
+RUN chown -R nginx:nginx /etc/nginx/ssl/
 
 COPY ./nginx.conf /etc/nginx/nginx.conf
 
 EXPOSE 443
+
+USER nginx
 
 ENTRYPOINT ["nginx", "-g", "daemon off;"]

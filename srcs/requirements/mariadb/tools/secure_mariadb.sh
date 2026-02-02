@@ -7,10 +7,8 @@ if [ ! -d "${MARIADB_SOCKET_FOLDER}" ]; then # if MariaDB unix socket directory 
     chown ${MARIADB_USER}:${MARIADB_USER} ${MARIADB_SOCKET_FOLDER} # and set appropriate ownership
 fi
 
-mariadbd --user=${MARIADB_USER} --skip-networking & # Start MariaDB temporarily in the background
+mariadbd --user=${MARIADB_USER} & # Start MariaDB temporarily in the background
 pid="$!" # And capture it's pid
-
-# --skip-networking disables TCP networking and only allows connections via the UNIX socket
 
 until mariadb-admin ping --socket=${MARIADB_SOCKET_FOLDER}/mysqld.sock --silent; do
     sleep 1
@@ -24,8 +22,6 @@ done
 mariadb --protocol=socket -uroot <<-EOSQL
     DELETE FROM mysql.user WHERE User='';
     ALTER USER 'root'@'localhost' IDENTIFIED BY '${MARIADB_ROOT_PASSWORD}';
-    DROP DATABASE IF EXISTS test;
-    DELETE FROM mysql.db WHERE Db='test';
     FLUSH PRIVILEGES;
 EOSQL
 
