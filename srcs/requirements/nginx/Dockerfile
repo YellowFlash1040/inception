@@ -19,6 +19,6 @@ COPY --from=certs /etc/nginx/ssl /etc/nginx/ssl
 
 COPY ./conf/nginx.conf /etc/nginx/nginx.conf
 
-EXPOSE 80 443
+EXPOSE 443
 
 ENTRYPOINT ["nginx", "-g", "daemon off;"]

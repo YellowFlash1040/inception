@@ -1,25 +1,27 @@
 services:
-    nginx:
-        image: nginx
-        build: ./requirements/nginx
-        container_name: nginx
-        ports: [ "8080:80", "8081:443" ]
-        volumes:
-            - ./requirements/nginx/index.html:/var/www/html/index.html:ro
-        restart: always
+  nginx:
+    image: nginx
+    build: ./requirements/nginx
+    container_name: nginx
+    ports: [ "4242:443" ]
+    networks:
+      - inception
+    restart: always
 
-    mariadb:
-        image: mariadb
-        build: ./requirements/mariadb
-        container_name: mariadb
-        environment:
-            MARIADB_USER: ${MARIADB_USER}
-            MARIADB_ROOT_PASSWORD: ${MARIADB_ROOT_PASSWORD}
-            MARIADB_HOME: ${MARIADB_HOME}
-            MARIADB_SOCKET_FOLDER: ${MARIADB_SOCKET_FOLDER}
-        volumes:
-            - mariadb_volume:${MARIADB_HOME}
-        restart: always
+  mariadb:
+    image: mariadb
+    build: ./requirements/mariadb
+    container_name: mariadb
+    environment:
+      MARIADB_USER: ${MARIADB_USER}
+      MARIADB_ROOT_PASSWORD: ${MARIADB_ROOT_PASSWORD}
+      MARIADB_HOME: ${MARIADB_HOME}
+      MARIADB_SOCKET_FOLDER: ${MARIADB_SOCKET_FOLDER}
+    volumes:
+      - mariadb_volume:${MARIADB_HOME}
+    networks:
+      - inception
+    restart: always
 
 volumes:
   mariadb_volume:
@@ -27,4 +29,9 @@ volumes:
     driver_opts:
       type: none
       o: bind
-      device: /home/akovtune/data/mariadb
+      # device: /home/akovtune/data/mariadb
+      device: /home/akovtune/codam/core/projects/inception/data/mariadb
+
+networks:
+  inception:
+    driver: bridge
