@@ -22,6 +22,11 @@ done
 mariadb --protocol=socket -uroot <<-EOSQL
     DELETE FROM mysql.user WHERE User='';
     ALTER USER 'root'@'localhost' IDENTIFIED BY '${MARIADB_ROOT_PASSWORD}';
+
+    CREATE DATABASE IF NOT EXISTS ${WP_NAME};
+    CREATE USER IF NOT EXISTS '${WP_ADMIN_USER}'@'%' IDENTIFIED BY '${WP_PASSWORD}';
+    GRANT ALL PRIVILEGES ON ${WP_NAME}.* TO '${WP_ADMIN_USER}'@'%';
+
     FLUSH PRIVILEGES;
 EOSQL
 
