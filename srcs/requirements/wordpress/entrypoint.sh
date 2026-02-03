@@ -1,7 +1,7 @@
 #!/bin/sh
 set -e
 
-wp='php -d memory_limit=256M /usr/local/bin/wp'
+wp='php84 -d memory_limit=256M /usr/local/bin/wp'
 
 # Download WordPress if not present
 if [ ! -d "${WORDPRESS_DATA}/wp-admin" ]; then
