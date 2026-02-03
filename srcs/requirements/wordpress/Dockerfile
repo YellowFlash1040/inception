@@ -31,19 +31,16 @@ RUN apk update && apk add --no-cache \
     su-exec \
     mysql-client
 
-# Create symlink so 'php' command works
-RUN ln -s /usr/bin/php84 /usr/bin/php
-
 COPY ./entrypoint.sh /usr/local/bin/
 RUN chmod +x /usr/local/bin/entrypoint.sh
 
 RUN adduser -D wordpress
-
 RUN mkdir -p /var/log/php84 \
     && chown wordpress:wordpress /var/log/php84
 
 COPY --from=curlstage /usr/local/bin/wp /usr/local/bin/wp
+RUN ln -s /usr/bin/php84 /usr/bin/php
 
-WORKDIR /var/www/html/wordpress
+COPY ./www.conf /etc/php84/php-fpm.d/
 
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
