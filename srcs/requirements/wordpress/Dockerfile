@@ -15,7 +15,8 @@ RUN apk update && apk add --no-cache \
     php84-fpm \
     php84-mysqli \
     php84-phar \
-    php84-mbstring
+    php84-mbstring \
+    && ln -s /usr/bin/php84 /usr/bin/php
 
 COPY --from=curlstage /usr/local/bin/wp /usr/local/bin/wp
 
