@@ -1,6 +1,7 @@
 YML_FILE := ./srcs/docker-compose.yml
 
-all: prepare up
+# all: prepare up
+all: up
 
 prepare:
 	mkdir -p /home/akovtune/inception/data/mariadb

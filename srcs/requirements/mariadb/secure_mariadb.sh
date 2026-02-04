@@ -4,10 +4,10 @@ set -e
 
 if [ ! -d "${MARIADB_SOCKET_FOLDER}" ]; then # if MariaDB unix socket directory is missing
     mkdir -p ${MARIADB_SOCKET_FOLDER} # create one
-    chown ${MARIADB_USER}:${MARIADB_USER} ${MARIADB_SOCKET_FOLDER} # and set appropriate ownership
+    chown ${MARIADB_LINUX_USER}:${MARIADB_LINUX_USER} ${MARIADB_SOCKET_FOLDER} # and set appropriate ownership
 fi
 
-mariadbd --user=${MARIADB_USER} & # Start MariaDB temporarily in the background
+mariadbd --user=${MARIADB_LINUX_USER} & # Start MariaDB temporarily in the background
 pid="$!" # And capture it's pid
 
 until mariadb-admin ping --socket=${MARIADB_SOCKET_FOLDER}/mysqld.sock --silent; do
@@ -21,11 +21,11 @@ done
 
 mariadb --protocol=socket -uroot <<-EOSQL
     DELETE FROM mysql.user WHERE User='';
-    ALTER USER 'root'@'localhost' IDENTIFIED BY '${MARIADB_ROOT_PASSWORD}';
+    ALTER USER 'root'@'localhost' IDENTIFIED BY '${MARIADB_ROOT_USER_PASSWORD}';
 
     CREATE DATABASE IF NOT EXISTS ${WP_DB_NAME};
-    CREATE USER IF NOT EXISTS '${WP_ADMIN_USER}'@'%' IDENTIFIED BY '${WP_PASSWORD}';
-    GRANT ALL PRIVILEGES ON ${WP_DB_NAME}.* TO '${WP_ADMIN_USER}'@'%';
+    CREATE USER IF NOT EXISTS '${WP_ADMIN_DB_USER}'@'%' IDENTIFIED BY '${WP_ADMIN_DB_PASSWORD}';
+    GRANT ALL PRIVILEGES ON ${WP_DB_NAME}.* TO '${WP_ADMIN_DB_USER}'@'%';
 
     FLUSH PRIVILEGES;
 EOSQL
@@ -38,7 +38,7 @@ EOSQL
 # Removes privileges related to the "test" database.
 # Reloads the privilege tables so changes take effect immediately.
 
-mariadb-admin --protocol=socket -uroot -p"${MARIADB_ROOT_PASSWORD}" shutdown
+mariadb-admin --protocol=socket -uroot -p"${MARIADB_ROOT_USER_PASSWORD}" shutdown
 wait "$pid" 2>/dev/null || true
 
 # mariadb-admin shutdown → Gracefully stops the MariaDB server
