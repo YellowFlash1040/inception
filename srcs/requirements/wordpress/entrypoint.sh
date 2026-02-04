@@ -9,6 +9,11 @@ if [ ! -d "${WP_FOLDER}/wp-admin" ]; then
     chown -R ${WP_LINUX_USER}:${WP_LINUX_USER} ${WP_FOLDER}
 fi
 
+# Wait for database to start
+until nc -z ${WP_DB_HOST} 3306 2>/dev/null; do
+    sleep 3
+done
+
 # Create config if it doesn't exist
 if [ ! -f "${WP_FOLDER}/wp-config.php" ]; then
     wp config create --allow-root \
@@ -18,11 +23,6 @@ if [ ! -f "${WP_FOLDER}/wp-config.php" ]; then
         --dbpass=${WP_DB_USER_PASSWORD} \
         --path=${WP_FOLDER}
 fi
-
-# Wait for database to start
-until nc -z ${WP_DB_HOST} 3306 2>/dev/null; do
-    sleep 3
-done
 
 # Install WordPress if not already installed
 if ! wp core is-installed --allow-root --path=${WP_FOLDER} 2>/dev/null; then

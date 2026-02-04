@@ -66,13 +66,13 @@ volumes:
       type: none
       o: bind
       # device: /home/akovtune/data/mariadb
-      device: /home/akovtune/inception/data/mariadb
+      device: /home/akovtune/codam/core/projects/inception/data/mariadb
   wordpress_volume:
     driver: local
     driver_opts:
       type: none
       o: bind
-      device: /home/akovtune/inception/data/wordpress
+      device: /home/akovtune/codam/core/projects/inception/data/wordpress
 
 networks:
   inception:
