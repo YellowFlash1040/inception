@@ -1,11 +1,12 @@
-YML_FILE := ./srcs/docker-compose.yml
+YML_FILE 			:= ./srcs/docker-compose.yml
+WP_DATA_FOLDER		:= /home/akovtune/data/wordpress
+MARIADB_DATA_FOLDER	:= /home/akovtune/data/mariadb
 
-# all: prepare up
 all: up
 
 prepare:
-	mkdir -p /home/akovtune/inception/data/mariadb
-	mkdir -p /home/akovtune/inception/data/wordpress
+	mkdir -p ${MARIADB_DATA_FOLDER}
+	mkdir -p ${WP_DATA_FOLDER}
 
 up:
 	docker compose -f $(YML_FILE) up -d --build
@@ -19,8 +20,8 @@ clean: down
 fclean: clean
 	docker image rm $$(docker images -aq) 2>/dev/null || true
 	docker volume rm $$(docker volume ls -q) 2>/dev/null || true
-	rm -rf data/wordpress/*
-	rm -rf data/mariadb/*
+	rm -rf ${WP_DATA_FOLDER}/*
+	rm -rf ${MARIADB_DATA_FOLDER}/*
 
 re: fclean all
 
