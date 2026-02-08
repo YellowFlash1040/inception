@@ -1,6 +1,6 @@
 YML_FILE 			:= ./srcs/docker-compose.yml
-WP_DATA_FOLDER		:= /home/akovtune/data/wordpress
 MARIADB_DATA_FOLDER	:= /home/akovtune/data/mariadb
+WP_DATA_FOLDER		:= /home/akovtune/data/wordpress
 
 all: prepare up
 

@@ -8,4 +8,5 @@
 !docker-compose.yml
 !README.md
 !**/srcs/**
+!**/docs/**
 .env
