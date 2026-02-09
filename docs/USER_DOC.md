@@ -1,4 +1,4 @@
-    # Inception - User Documentation
+# Inception - User Documentation
 
 ### Services Provided
 
